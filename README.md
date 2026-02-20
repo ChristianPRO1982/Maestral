@@ -11,7 +11,15 @@
 [![WebRTC](https://img.shields.io/badge/WebRTC-DataChannel-333333?logo=webrtc&logoColor=white)](https://webrtc.org/)
 [![IndexedDB](https://img.shields.io/badge/IndexedDB-Local%20Storage-00599C)](https://developer.mozilla.org/docs/Web/API/IndexedDB_API)
 
-Where voices move as one.
+> *Where voices move as one.*
+
+# SOLO MODE
+
+![Solo Mode](./docs/ChatGPT-solo_mode.png)
+
+# MASTER MODE
+
+![Master Mode 1](./docs/ChatGPT-Master_mode_1.png) ![Master Mode 2](./docs/ChatGPT-Master_mode_2.png)
 
 ## English
 
