@@ -3,7 +3,7 @@
 This folder contains the authoritative documentation used to guide development.
 
 Each file has a clearly defined responsibility.
-No file should duplicate another.
+Avoid unnecessary duplication across files.
 
 ---
 
@@ -25,7 +25,7 @@ Authoritative source for:
 
 * User workflows
 * Feature rules
-* Role behavior (Master / Slave)
+* Role behavior (Solo dual-device, Choir Master / Followers)
 
 ---
 
@@ -45,15 +45,15 @@ Authoritative source for device communication.
 
 ### UI_ARCHITECTURE_V1.md
 
-Frontend implementation architecture.
+User interface architecture and behavior.
 Defines:
 
-* Component structure
-* State management
-* Rendering lifecycle
-* Interaction boundaries
+* UX principles
+* Information architecture
+* Screen responsibilities
+* Navigation flows and edge-case UX behaviors
 
-Authoritative source for UI implementation decisions.
+Authoritative source for UI structure and interaction mapping derived from the product spec.
 
 ---
 
@@ -101,5 +101,5 @@ They only reference root documents.
 
 * Root documents define architecture.
 * Sprint documents define implementation steps.
-* No duplication between files.
+* Avoid unnecessary duplication between files.
 * Architectural changes require updating the relevant root document.

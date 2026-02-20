@@ -5,9 +5,9 @@
 Maestral V1 must be:
 
 * Fully autonomous (no external server required)
-* Offline-capable
+* Offline-capable for local library usage
 * Lightweight and maintainable
-* Focused on PDF display and real-time synchronization only
+* Focused on score display (PDF + image songs), setlists, and real-time synchronization
 * Designed for local Wi-Fi usage (LAN only)
 
 The goal is simplicity and robustness over feature richness.
@@ -25,11 +25,27 @@ Communication between devices is:
 * Serverless
 * Limited to local network usage
 
-Architecture overview:
+V1 supports two synchronization topologies:
+
+### 2.1 Solo Mode (Dual Screen)
+
+Two tablets are paired.
+Both remain manually navigable and keep mirrored page state.
 
 ```
-Tablet Master  <—— WebRTC DataChannel ——>  Tablet Slave
-         (PWA)                             (PWA)
+Tablet A  <—— WebRTC DataChannel ——>  Tablet B
+ (PWA)                                 (PWA)
+```
+
+### 2.2 Choir Mode (Master + Followers)
+
+One master coordinates one or more followers.
+Each follower has an independent link to the master.
+
+```
+Follower 1  <—— WebRTC DataChannel ——>
+Follower 2  <—— WebRTC DataChannel ——>  Master
+Follower N  <—— WebRTC DataChannel ——>
 ```
 
 No backend server.
@@ -49,7 +65,7 @@ No database server.
 Rationale:
 
 * Strong ecosystem
-* Type safety (important for sync protocol)
+* Type safety for sync state
 * Fast dev cycle
 * Easy maintainability
 
@@ -65,23 +81,24 @@ Capabilities:
 
 * Installable on Android
 * Full-screen mode
-* Offline startup
+* Offline startup for local content
 * Controlled asset caching
 
 ---
 
-### 3.3 PDF Rendering
+### 3.3 Score Rendering
 
-* **Mozilla PDF.js**
+* **Mozilla PDF.js** for PDF songs
+* Native browser image rendering for JPG/PNG songs
 
 Used for:
 
-* Rendering PDF pages
-* Page navigation
+* Rendering one page/image at a time
+* Discrete page navigation
 * Zoom handling
 * Reset view management
 
-PDF rendering is fully client-side.
+Rendering is fully client-side.
 
 ---
 
@@ -90,14 +107,14 @@ PDF rendering is fully client-side.
 ### 4.1 Communication Protocol
 
 * **WebRTC DataChannels**
-* Peer-to-peer connection
+* Peer-to-peer links
 * JSON-based message protocol
 
 Reasons:
 
 * No central server
-* Low latency
-* Reliable ordered delivery (configurable)
+* Low latency on LAN
+* Reliable ordered delivery when needed
 
 ---
 
@@ -108,48 +125,36 @@ WebRTC requires signaling (offer/answer exchange).
 In V1, signaling is handled via:
 
 * QR code exchange
-* Manual pairing process
-
-Flow:
-
-1. Master generates SDP offer
-2. Master displays QR
-3. Slave scans and generates answer
-4. Answer returned via QR or copy/paste
-5. Connection established
+* Manual token / copy-paste fallback
 
 No external signaling server is used.
 
 ---
 
-### 4.3 Sync Message Protocol (Conceptual)
+### 4.3 Sync Semantics by Mode
 
-Messages are small JSON payloads.
+#### Solo Mode
 
-Examples:
+* Page changes from either device are synchronized to the other.
+* On temporary disconnect, both devices continue locally.
+* On reconnect, the most recently changed page becomes shared state.
 
-```json
-{
-  "type": "SET_PDF",
-  "pdf_id": "uuid"
-}
-```
+#### Choir Mode
 
-```json
-{
-  "type": "SET_PAGE",
-  "page_index": 3
-}
-```
+* Master controls song selection and page reference state.
+* Followers in **Follow** mode track master page changes.
+* Followers in **Free** mode navigate locally and are not forced by master page turns.
+* Song changes always take priority and switch all followers to the current song.
+* During rapid page changes, final state is prioritized over replaying every intermediate page.
 
-```json
-{
-  "type": "RESET_VIEW"
-}
-```
+---
 
-Only control signals are synchronized.
-PDF files are stored locally on each device.
+### 4.4 Synchronization Payload Scope
+
+* Control events are synchronized in all modes (session, song, page, mode/state).
+* In Choir Mode, song content can be streamed for temporary viewing during the active session.
+* Streamed content is view-only and non-exportable.
+* Session termination invalidates the token and clears streamed content.
 
 ---
 
@@ -162,60 +167,64 @@ PDF files are stored locally on each device.
 
 Used for:
 
-* PDF metadata
-* Playlist information
+* Song metadata (PDF and image-based songs)
+* Setlists
 * Local settings
-* Device role state
+* Session token persistence for automatic reconnection
+* Follower mode preference state (Follow / Free)
 
 ---
 
-### 5.2 PDF File Storage
+### 5.2 Local File Storage
 
 Handled via:
 
-* File input (manual import)
-* Stored as Blob references or persistent file handles (when available)
+* Manual file import
+* Blob references or persistent file handles (when available)
 
-Each device stores its own PDF files.
-Synchronization does NOT transfer PDFs.
-
----
-
-## 6. Roles
-
-### 6.1 Master
-
-Responsible for:
-
-* Selecting PDF
-* Changing page
-* Resetting zoom
-* Broadcasting sync events
-
-Only one Master per session.
+Each device stores its own local library.
+No permanent cross-device file synchronization is required.
 
 ---
 
-### 6.2 Slave
+## 6. Roles and Control Model
+
+### 6.1 Solo Mode
+
+* Two paired devices can both trigger manual page turns.
+* A primary device may host Bluetooth pedal input.
+* A page-leader parity setting (odd/even) defines complementary page layout.
+
+### 6.2 Choir Master
 
 Responsible for:
 
-* Listening to sync events
-* Applying page/zoom changes
-* Rendering locally stored PDF
+* Starting and ending session
+* Sharing join QR/token
+* Selecting songs
+* Changing pages
+* Seeing connected follower count
 
-Slaves do not control navigation.
+The master has no per-follower permission system in V1.
+
+### 6.3 Choir Follower
+
+Responsible for:
+
+* Joining via QR or token
+* Tracking connection state
+* Toggling Follow / Free
+* Navigating locally when in Free mode or during disconnection
+* Automatic reconnection using stored session token
 
 ---
 
 ## 7. Network Assumptions
 
-* Both tablets connected to same Wi-Fi network
-* No Internet required
-* No NAT traversal complexity (LAN only)
-* No TURN server
-
-The system is not designed for remote or Internet-based usage in V1.
+* Devices are connected to the same local Wi-Fi network
+* No Internet dependency for core operation
+* LAN-first behavior (not designed for remote Internet usage in V1)
+* No TURN infrastructure required for the primary V1 scope
 
 ---
 
@@ -227,8 +236,8 @@ The system is not designed for remote or Internet-based usage in V1.
 * Can be hosted:
 
   * Locally for development
-  * Via simple static server
-  * Or sideloaded via PWA install
+  * Via a simple static server
+  * Via PWA install flow on devices
 
 No runtime backend required.
 
@@ -236,15 +245,12 @@ No runtime backend required.
 
 ## 9. Explicit Non-Goals (V1)
 
-* No cloud sync
-* No multi-room orchestration
-* No automatic PDF distribution
-* No SEO optimization
-* No remote access over Internet
-* No complex update system
-
-The focus is:
-Stable PDF display + deterministic synchronization.
+* No cloud account system
+* No remote Internet sessions
+* No annotation or score editing features
+* No permanent streamed-file export to followers
+* No advanced orchestration beyond a single local session scope
+* No complex update infrastructure
 
 ---
 
@@ -254,13 +260,12 @@ Stable PDF display + deterministic synchronization.
 * No server runtime
 * No database server
 * Strictly client-side architecture
-* Small surface area
-* Clear separation of responsibilities
+* Small and explicit synchronization surface
+* Clear separation between UI behavior and sync transport
 * Strong typing via TypeScript
 
-Complexity is contained within:
+Complexity is concentrated in:
 
 * WebRTC pairing
-* Sync state machine
-
-Everything else remains standard frontend engineering.
+* Reconnection state handling
+* Deterministic page/song state convergence
