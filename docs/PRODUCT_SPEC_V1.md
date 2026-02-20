@@ -190,7 +190,7 @@ During performance:
 The Master can:
 
 - Start a session
-- Display a QR code for joining
+- Display a QR code or manual token for joining
 - See number of connected followers
 - End session
 
@@ -229,7 +229,7 @@ Changing page does NOT forcibly override followers in Free Mode.
 
 Followers can:
 
-- Join via QR code
+- Join via QR code or manual token
 - See connection status
 - Automatically reconnect if connection drops
 
