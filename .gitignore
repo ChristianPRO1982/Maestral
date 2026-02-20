@@ -3,8 +3,8 @@ chris/
 
 
 
-# Created by https://www.toptal.com/developers/gitignore/api/linux,windows,python,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,windows,python,node
+# Created by https://www.toptal.com/developers/gitignore/api/linux,windows,python,node,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,windows,python,node,react
 
 ### Linux ###
 *~
@@ -330,6 +330,19 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
+
+node_modules
+
+*.sublime*
+
+psd
+thumb
+sketch
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -356,4 +369,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/linux,windows,python,node
+# End of https://www.toptal.com/developers/gitignore/api/linux,windows,python,node,react
