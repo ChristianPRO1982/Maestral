@@ -141,7 +141,7 @@ Empty/loading/error states
 
 Key indicators (Connected/Disconnected, Follow/Free, Solo pairing state)
 - Connected/Disconnected: Visible when in Solo dual-device or Choir session.
-- Follow/Free: Visible only for Choir followers.
+- Follow/Free: Visible only for Choir Followers.
 - Solo pairing state: Visible in Solo dual-device mode (single device, paired-as-leader, paired-as-complement).
 
 ### 3.5 Solo Pairing Screen
@@ -205,7 +205,7 @@ Key indicators (Connected/Disconnected, Follow/Free, Solo pairing state)
 ### 3.7 Choir Join Screen (Follower)
 
 Purpose
-- Join and participate in a Choir session as follower.
+- Join and participate in a Choir session as Follower.
 
 Visible UI elements
 - Join via QR action.
@@ -251,13 +251,13 @@ Key indicators (Connected/Disconnected, Follow/Free, Solo pairing state)
 
 ### 4.3 Choir Mode Flows
 
-- Master create session flow: Master starts session, shows QR/token, followers join.
+- Master create session flow: Master starts session, shows QR/token, Followers join.
 - Join flow: Follower joins via QR or token/manual entry.
 - Rejoin flow: Follower stores token and silently retries reconnect; if session still active, follower rejoins automatically.
-- Follow/Free flow: Follower toggles mode; Follow tracks master page, Free keeps independent page control; master page turns never force a follower in Free mode.
-- Rejoin mode preservation flow: After reconnect, follower remains in Free if previously Free; followers in Follow resync to master page.
+- Follow/Free flow: Follower toggles mode; Follow tracks Master page, Free keeps independent page control; Master page turns never force a follower in Free mode.
+- Rejoin mode preservation flow: After reconnect, follower remains in Free if previously Free; followers in Follow mode resync to Master page.
 - Song change priority flow: Master song change forces all followers to the new song, including followers that reconnect later.
-- Session termination flow: When master ends session, followers are notified, streamed content is cleared, the token becomes invalid, and followers return to local mode.
+- Session termination flow: When Master ends session, followers are notified, streamed content is cleared, the token becomes invalid, and followers return to local mode.
 
 ## 5. Edge-Case UX Behaviors
 
@@ -265,13 +265,13 @@ Key indicators (Connected/Disconnected, Follow/Free, Solo pairing state)
 
 - Solo temporary disconnect: Current page remains; subtle "Reconnecting..." status shown; controls stay active.
 - Choir follower disconnect: Last page remains; subtle "Disconnected" status shown; local navigation remains available.
-- Choir master disconnect: Followers remain on current page; Follow behavior pauses; followers continue local navigation; when master reconnects, Follow followers resync and Free followers remain unaffected.
+- Choir Master disconnect: Followers remain on current page; Follow behavior pauses; followers continue local navigation; when Master reconnects, followers in Follow mode resync and followers in Free mode remain unaffected.
 
 ### 5.2 Conflict Resolution Rules (User-Visible Outcomes)
 
 - Solo page conflict on reconnect: If both devices changed page while disconnected, the most recently changed page becomes shared on reconnect.
 - Choir rapid page changes: Followers may skip intermediate pages and render only the latest page state.
-- Choir reconnect after song change: Current song on master overrides any previous follower page context immediately.
+- Choir reconnect after song change: Current song on Master overrides any previous follower page context immediately.
 
 ## 6. Accessibility & Readability Notes
 
