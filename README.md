@@ -17,9 +17,13 @@
 
 ![Solo Mode](./docs/ChatGPT-solo_mode.png)
 
+Image generate by IA.
+
 # MASTER MODE
 
 ![Master Mode 1](./docs/ChatGPT-Master_mode_1.png) ![Master Mode 2](./docs/ChatGPT-Master_mode_2.png)
+
+Image generate by IA.
 
 ## English
 
