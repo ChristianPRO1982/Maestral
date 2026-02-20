@@ -172,7 +172,7 @@ Unknown message types MUST be ignored safely.
 - `SET_FOLLOW_MODE` (Follower local mode publication):
   - `follow` or `free`
 
-### 8.3 Optional Stream Control (Choir)
+### 8.3 Stream Control (Choir)
 
 - `STREAM_PREPARE`:
   - signals temporary streamed score availability for current song
@@ -180,6 +180,7 @@ Unknown message types MUST be ignored safely.
   - clears temporary streamed content (also implied by `SESSION_END`)
 
 Note:
+- In Choir Mode, streamed score delivery is part of the V1 session model.
 - Streamed content remains view-only and temporary in V1.
 
 ---

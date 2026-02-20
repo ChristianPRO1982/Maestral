@@ -236,7 +236,7 @@ Constraints:
 - Migrations are additive-first when possible.
 - Destructive changes require explicit data transformation and backup-safe ordering.
 - Migration steps must be idempotent from the user perspective (no duplicate logical rows).
-- If migration artifacts are tracked in `./db/migrations/sql/`, filenames must be monotonic and immutable.
+- Migration artifacts are tracked in `./db/migrations/sql/`; filenames must be monotonic and immutable.
 
 Recommended filename convention:
 

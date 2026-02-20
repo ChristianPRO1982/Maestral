@@ -152,7 +152,7 @@ No external signaling server is used.
 ### 4.4 Synchronization Payload Scope
 
 - Control events are synchronized in all modes (session, song, page, mode/state).
-- In Choir Mode, song content can be streamed for temporary viewing during the active session.
+- In Choir Mode, song content is streamed for temporary viewing during the active session.
 - Streamed content is view-only and non-exportable.
 - Session termination invalidates the token and clears streamed content.
 

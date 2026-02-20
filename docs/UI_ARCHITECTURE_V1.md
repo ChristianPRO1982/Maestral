@@ -217,7 +217,7 @@ Visible UI elements
 User actions
 - Join session by QR or token.
 - Toggle Follow or Free.
-- Navigate pages locally (always allowed).
+- Navigate pages locally in Free mode, and during temporary disconnection.
 - Leave session and return to local mode.
 - Streamed songs are view-only, with no export or permanent file-save action.
 
