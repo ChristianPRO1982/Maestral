@@ -38,6 +38,45 @@ label {
   font-weight: 600;
 }
 
+.inline-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.hint {
+  margin: 8px 0 0;
+}
+
+.qr-box {
+  margin-top: 8px;
+}
+
+.qr-image {
+  display: block;
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #888;
+  background: #fff;
+  margin-top: 6px;
+}
+
+#scannerPanel {
+  margin-top: 8px;
+  border: 1px solid #888;
+  background: #fff;
+  padding: 8px;
+}
+
+#scannerVideo {
+  width: 100%;
+  max-width: 420px;
+  background: #000;
+}
+
 textarea {
   width: 100%;
   min-height: 112px;
