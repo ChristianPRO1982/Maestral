@@ -1,4 +1,4 @@
-# Maestral — Product Specification V2
+# Maestral — Product Specification V2 (Android Native)
 
 Tagline: *Where voices move as one.*
 
@@ -6,19 +6,41 @@ Tagline: *Where voices move as one.*
 
 # 1. Product Vision
 
-Maestral is a digital music stand system designed for choirs and musicians.
+Maestral is an Android digital music stand app for choirs and musicians.
 
-It enables synchronized score display across multiple devices while remaining simple, reliable, and focused on performance.
+It enables synchronized score display across multiple Android devices while remaining simple, reliable, and performance-focused.
 
-Maestral does not attempt to edit or modify musical scores.
-Users are responsible for preparing clean and final PDF files.
+Maestral does not edit scores.
+Users prepare final PDFs/images outside the app.
 
 The interface must remain minimal.
 Music remains central.
 
 ---
 
-# 2. Core Modes
+# 2. Platform Scope (V2)
+
+## 2.1 Target Platform
+
+- Android app (native)
+- Android tablets are the primary target
+- Android phones are secondary/compatible where feasible
+
+## 2.2 Runtime Principles
+
+- Local-first behavior
+- Core usage must work without Internet once app is installed
+- Device-to-device sync is local network based (LAN/hotspot)
+
+## 2.3 Out of Platform Scope
+
+- iOS app
+- Desktop app
+- Browser/PWA as primary runtime
+
+---
+
+# 3. Core Modes
 
 Maestral supports two primary modes:
 
@@ -27,9 +49,9 @@ Maestral supports two primary modes:
 
 ---
 
-# 3. Global Features (All Modes)
+# 4. Global Features (All Modes)
 
-## 3.1 Library Management
+## 4.1 Library Management
 
 Users can:
 
@@ -38,25 +60,23 @@ Users can:
 
 Rules:
 
-- A PDF equals one Song.
-- PDF pages cannot be reordered.
-- PDF pages cannot be excluded.
-- Users must prepare PDFs externally.
+- A PDF equals one Song
+- PDF pages cannot be reordered
+- PDF pages cannot be excluded
+- PDFs are prepared externally
 
 For image-based songs:
 
-- Multiple images can be grouped into one Song.
-- Images within a Song can be reordered.
-- Images cannot be partially cropped or edited.
+- Multiple images can be grouped into one Song
+- Images within a Song can be reordered
+- Images cannot be cropped or edited inside Maestral
 
 Users can:
 
 - Rename songs
 - Delete songs
 
----
-
-## 3.2 Setlists
+## 4.2 Setlists
 
 Users can:
 
@@ -65,366 +85,309 @@ Users can:
 - Reorder songs in a setlist
 - Remove songs from a setlist
 - Launch a setlist
-- Move to the next song
+- Move to next song
 
----
+## 4.3 Page Navigation
 
-## 3.3 Page Navigation
+Navigation is page-based only:
 
-Navigation is page-based only.
-
-- One page is displayed at a time.
-- Moving between pages is discrete.
-- There is no continuous scrolling between pages.
+- One page displayed at a time
+- Discrete page transitions
+- No continuous page scrolling
 
 Users can:
 
-- Go to next page
-- Go to previous page
-- Jump to first or last page (optional)
+- Next page
+- Previous page
+- Optional jump to first/last page
 
-Zooming is allowed:
+Zooming:
 
-- Users may zoom within a page.
-- Zooming allows moving inside the page.
-- Zooming does not allow navigation to another page.
+- Zoom within page is allowed
+- Panning inside zoomed page is allowed
+- Zoom cannot trigger page change
 
----
+## 4.4 Performance Expectations
 
-## 3.4 Performance Expectations
+During songs:
 
-During a song:
-
-- Page changes should occur within approximately 1 second.
-- Minor delay is acceptable.
-- Long delays (multiple seconds) are unacceptable.
+- Page transitions should occur in about 1 second
+- Small delay is acceptable
+- Multi-second delays are unacceptable
 
 Between songs:
 
-- Short loading time is acceptable.
+- Short loading time is acceptable
 
 ---
 
-# 4. Solo Mode (Dual Screen)
+# 5. Solo Mode (Dual Screen)
 
-## 4.1 Purpose
+## 5.1 Purpose
 
 Designed for musicians using one or two devices as a digital open book.
 
-Solo Mode adapts automatically depending on the number of connected devices.
+## 5.2 Single Device Behavior
 
----
+If one device is active:
 
-## 4.2 Single Device Behavior
+- Device displays all pages sequentially
+- Standard page-by-page navigation
+- No pairing logic
 
-If only one device is connected:
+## 5.3 Dual Device Behavior
 
-- The device displays all pages sequentially.
-- Navigation behaves normally (page by page).
-- No page pairing logic is applied.
+When two devices are paired:
 
----
+- Both devices have equal manual navigation authority
+- Bluetooth pedal is connected to one device only (Primary)
+- Either device can change page
+- Page change on one device is reflected on the other
 
-## 4.3 Dual Device Behavior
+The behavior should mimic a physical open score.
 
-When two devices are connected:
+## 5.4 Page Distribution
 
-- Both devices are equal in navigation authority.
-- Bluetooth pedal connects to one device only (Primary).
-- Either device may manually change pages.
-- Any page change on one device is immediately reflected on the other.
+One device is designated as Page Leader for layout parity.
 
-The experience must mimic a physical open book:
-both sides can turn pages.
+Page Leader chooses:
 
----
-
-## 4.4 Page Distribution
-
-One device is designated as Page Leader for layout purposes.
-
-The Page Leader may choose:
-
-- Display odd pages
+- Odd pages
 OR
-- Display even pages
+- Even pages
 
-The other device automatically displays the complementary pages.
+The other device displays complementary pages.
 
 Examples:
 
-If Page Leader displays:
-- Page 1 → Other device displays Page 2
-- Page 3 → Other device displays Page 4
+- Leader page 1 -> other page 2
+- Leader page 3 -> other page 4
+- Leader page 2 -> other page 1
+- Leader page 4 -> other page 3
 
-If Page Leader displays:
-- Page 2 → Other device displays Page 1
-- Page 4 → Other device displays Page 3
+## 5.5 Last Page Edge Case
 
----
+If final page has no complement:
 
-## 4.5 Edge Case — Last Page
-
-If the last page of a song has no complementary page:
-
-- The opposite screen displays an empty neutral page.
-- The layout must remain stable.
-- No shifting or resizing occurs.
+- Opposite screen shows neutral empty page
+- Layout remains stable (no shifting/resizing)
 
 ---
 
-## 4.6 Performance Expectations
+# 6. Choir Mode — Master
 
-During performance:
+## 6.1 Session Management
 
-- Page transitions should occur within approximately 1 second.
-- Minor delay is acceptable.
-- Transitions must feel stable and predictable.
+Master can:
 
----
-
-# 5. Choir Mode — Master
-
-## 5.1 Session Management
-
-The Master can:
-
-- Start a session
-- Display a QR code or manual token for joining
-- See number of connected followers
+- Start session
+- Display QR code or manual token for join
+- See connected follower count
 - End session
 
-The Master does not manage individual user permissions.
+No per-user permission system in V2.
 
----
+## 6.2 Song Control
 
-## 5.2 Song Control
+Master can:
 
-The Master can:
+- Select song
+- Next song
+- Previous song
 
-- Select a song
-- Change to the next song
-- Change to the previous song
+When Master changes song:
 
-When the Master changes song:
+- All followers switch to same song
 
-- All Followers must switch to the same song.
+## 6.3 Page Control
 
----
-
-## 5.3 Page Control
-
-The Master can:
+Master can:
 
 - Change page
 - See current page number
 
-Changing page does NOT forcibly override followers in Free Mode.
+Master page changes do not override followers in Free Mode.
 
 ---
 
-# 6. Choir Mode — Follower
+# 7. Choir Mode — Follower
 
-## 6.1 Joining
+## 7.1 Joining
 
 Followers can:
 
-- Join via QR code or manual token
-- See connection status
-- Automatically reconnect if connection drops
+- Join via QR or manual token
+- View connection state
+- Auto-reconnect on connection loss
 
----
-
-## 6.2 Page Behavior
-
-Followers have two modes:
+## 7.2 Follower Page Modes
 
 ### Follow Mode
 
-- Follower page automatically matches Master page.
-- If Master changes page, follower updates.
+- Follower page tracks Master page automatically
 
-### Free Mode (Débrayé)
+### Free Mode
 
-- Follower may navigate pages independently.
-- Master page changes do not affect this follower.
-- This preference is always respected.
+- Follower navigates independently
+- Master page turns do not force follower page
+- Preference remains respected
 
-However:
+Rule:
 
-- When the Master changes song,
-  all Followers must switch to the new song.
+- Song changes from Master always override follower local song/page context
 
----
+## 7.3 Follower Navigation
 
-## 6.3 Navigation
-
-Followers may:
+Followers can:
 
 - Navigate page by page
-- Zoom within a page
+- Zoom/pan within page
 
-Navigation remains discrete (no continuous page scroll).
-
----
-
-# 7. Edge Cases & Reconnection Behavior
+No continuous page scroll.
 
 ---
 
-## 7.1 Solo Mode — Connection Loss
+# 8. Reconnection and Failure Behavior
 
-### Temporary Disconnection
+## 8.1 Solo — Temporary Loss
 
-If connection between two devices is lost:
+- Both devices keep operating
+- Current page remains visible
+- Subtle "Reconnecting..." indicator
+- Navigation stays available
+- No forced reset
 
-- Both devices remain fully operational.
-- The current page remains visible.
-- A subtle "Reconnecting…" indicator appears.
-- Navigation remains available on both devices.
+## 8.2 Solo — Reconnect Rule
 
-No forced reset occurs.
+On successful reconnect:
 
----
+- Devices synchronize to latest page change
+- Most recent page change becomes source of truth
+- Sync must be smooth (no abrupt flicker)
 
-### Automatic Reconnection
+## 8.3 Solo — Long Loss
 
-Devices must:
+- Devices continue independently
+- Manual reconnect remains possible
+- No content loss
 
-- Attempt automatic reconnection in the background.
-- Retry silently without blocking the interface.
+## 8.4 Choir Follower — Temporary Loss
 
-When reconnection succeeds:
+- Last page remains visible
+- Subtle "Disconnected" indicator
+- Local navigation remains available
 
-- Both devices synchronize to the most recently changed page.
-- The device with the latest page change becomes the source of truth.
-- Synchronization must occur smoothly without abrupt flicker.
+## 8.5 Choir Follower — Auto Rejoin
 
----
+- Store session token locally
+- Retry in background using stored token
+- If session active:
+  - Rejoin automatically
+  - Follow mode followers resync to Master page
+  - Free mode followers remain Free
 
-### Long Disconnection
+## 8.6 Choir Master Loss
 
-If reconnection fails:
+- Followers stay on current page
+- Follow behavior pauses temporarily
+- Followers can navigate locally
 
-- Both devices continue operating independently.
-- Users may manually reconnect if desired.
-- No content is lost.
+When Master returns:
 
-The system must never block performance.
+- Session resumes
+- Follow mode followers resync
+- Free mode followers unchanged
 
----
+## 8.7 Rapid Page Changes
 
-## 7.2 Choir Mode — Follower Disconnection
+- Apply most recent page only
+- Intermediate states may be skipped
 
-### Temporary Disconnection
+## 8.8 Song Change Priority
 
-If a follower loses connection:
+On reconnect after song changes:
 
-- The last visible page remains displayed.
-- A subtle "Disconnected" indicator appears.
-- The follower may continue navigating locally.
+- Current song from Master must be applied immediately
+- Song context overrides old page state
 
----
+## 8.9 Session End
 
-### Automatic Reconnection
+When Master ends session:
 
-Followers must:
-
-- Store the session token obtained via QR code or manual entry.
-- Attempt automatic reconnection using the stored token.
-- Retry silently in the background.
-
-If the session is still active:
-
-- The follower rejoins automatically.
-- If in Follow Mode, it synchronizes to the Master’s current page.
-- If in Free Mode, it remains in Free Mode.
-
-No manual action should be required in normal conditions.
-
----
-
-## 7.3 Choir Mode — Master Disconnection
-
-If the Master device disconnects:
-
-- Followers remain on their current page.
-- Follow Mode becomes temporarily inactive.
-- Followers may continue navigating locally.
-
-When the Master reconnects:
-
-- The session resumes.
-- Followers in Follow Mode synchronize automatically.
-- Followers in Free Mode remain unaffected.
+- Followers notified
+- Temporary streamed content cleared
+- Session token invalidated
+- Followers return to local mode
 
 ---
 
-## 7.4 Rapid Page Changes
+# 9. Android-Specific Behavior Requirements
 
-If the Master changes pages rapidly:
+## 9.1 App Lifecycle
 
-- Followers must update to the most recent page only.
-- Intermediate page states may be skipped.
-- System prioritizes final state over replaying history.
+- App resume should restore last local UI state quickly
+- Active session state should recover gracefully when possible
+- Unexpected process death must not corrupt local library/setlists
 
----
+## 9.2 Screen and Power Conditions
 
-## 7.5 Song Change Priority
+- Screen off/on should not immediately break active session
+- If session drops due to OS/network conditions, reconnection flow must start automatically
 
-If a song change occurs while a follower is disconnected:
+## 9.3 Connectivity Assumptions
 
-- Upon reconnection, the follower must immediately load the current song.
-- Song changes always override previous page state.
+- Devices are expected on same local network or hotspot
+- Internet is not required for core runtime behavior once installed
 
----
+## 9.4 Permissions (Functional Expectation)
 
-## 7.6 Session Termination
+App may request only required permissions for:
 
-When the Master ends the session:
+- File import
+- Local network communication
+- Optional QR scanning
+- Optional Bluetooth pedal integration
 
-- Followers are notified.
-- Streamed content is cleared.
-- Session token becomes invalid.
-- Followers return to local mode.
-
----
-
-# 8. Streaming Behavior (User Perspective)
-
-In Choir Mode:
-
-- Songs are streamed for viewing only.
-- Streamed content is temporary.
-- No export option exists.
-- No permanent file access is provided.
-- A watermark may indicate that content is streamed.
+No unnecessary permissions.
 
 ---
 
-# 9. UX Principles
+# 10. Streaming Behavior (User Perspective)
 
-- Minimal interface.
-- No visual noise.
+In Choir mode:
+
+- Song content may be streamed for temporary viewing
+- Streamed content is temporary
+- No export option
+- No permanent file access from streamed source
+- Optional watermark may indicate streamed content
+
+---
+
+# 11. UX Principles
+
+- Minimal interface
+- No visual noise
 - Clear state indicators:
   - Connected / Disconnected
   - Follow / Free
-- Music must remain the focus.
-- System must behave predictably.
-- No hidden automation.
+- Music-first interaction
+- Predictable system behavior
+- No hidden automation
 
 ---
 
-# 10. Non-Goals (V1)
+# 12. Non-Goals (V2)
 
 - No PDF editing
 - No page reordering inside PDFs
 - No annotation system
-- No cloud accounts
+- No cloud account requirement
 - No online public sharing
 - No advanced score editing
-- No user permission hierarchy
+- No per-follower permission hierarchy
+- No iOS or desktop target in this version
 
 ---
 
-# End of Product Spec V1
+# End of Product Spec V2
