@@ -15,11 +15,11 @@
 
 # SOLO MODE
 
-![Solo Mode](./docs/ChatGPT-solo_mode.png)
+![Solo Mode](./docs/images/ChatGPT-solo_mode.png)
 
 # MASTER MODE
 
-![Master Mode 1](./docs/ChatGPT-Master_mode_1.png) ![Master Mode 2](./docs/ChatGPT-Master_mode_2.png)
+![Master Mode 1](./docs/images/ChatGPT-Master_mode_1.png) ![Master Mode 2](./docs/images/ChatGPT-Master_mode_2.png)
 
 ## English
 
