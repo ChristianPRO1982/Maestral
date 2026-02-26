@@ -8,6 +8,7 @@ Purpose: validate the local development/testing pipeline before feature work.
 - [ ] Android SDK and platform tools installed
 - [ ] At least one Android Emulator image installed
 - [ ] `adb` available in terminal
+- [ ] `./tests/manual/check_android_env.sh` passes without missing critical tools
 
 ## B. Device Validation
 
